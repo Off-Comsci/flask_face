@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='fav.png') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <title>หน้าหลัก | ระบบเช็คชื่อเข้าเรียนด้วยใบหน้า</title>
+    <style>
+      /* @import url('https://fonts.googleapis.com/css?family=Mitr&display=swap'); */
+      @import url('https://fonts.googleapis.com/css?family=Mitr:300&display=swap');
+      body {
+        font-family: 'Mitr', sans-serif;
+      }
+    </style>
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  </head>
+  <body>
+    <table class="table table-hover table-striped">
+      <thead class="">
+        <tr>
+          <th width="25px">#</th>
+          <th width="145px">เวลาเข้าเรียน</th>
+          <th scope="col">รหัสนักศึกษา</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if datas : %}
+        {% for row in datas %}
+        <tr>
+          <th scope="row">{{ loop.index }}</th>
+          <td>{{ row.4 }}</td>
+          <td>{{ row.6 }}{{ row.7 }} {{ row.8 }}</td>
+        </tr>
+        {% endfor %}
+        {% else : %}
+        <tr>
+          <td colspan="3" class="text-center">-- ไม่มีข้อมูล --</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </body>
+</html>

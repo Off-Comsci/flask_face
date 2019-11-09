@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='fav.png') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>{% block title %}{% endblock %} | ระบบเช็คชื่อเข้าเรียนด้วยใบหน้า</title>
+    <style>
+      /* @import url('https://fonts.googleapis.com/css?family=Mitr&display=swap'); */
+      @import url('https://fonts.googleapis.com/css?family=Mitr:300&display=swap');
+      body {
+        font-family: 'Mitr', sans-serif;
+      }
+    </style>
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  </head>
+  <body>
+    {% include "snippets/navbar.html" %}
+    <div class="container">
+    {% block content %}{% endblock %}
+    </div>
+    {% include "snippets/navbottom.html" %}
+  </body>
+  {% block javascript %}{% endblock %}
+</html>

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='fav.png') }}"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+    <title>หน้าหลัก | ระบบเช็คชื่อเข้าเรียนด้วยใบหน้า</title>
+    <style>
+      /* @import url('https://fonts.googleapis.com/css?family=Mitr&display=swap'); */
+      @import url('https://fonts.googleapis.com/css?family=Mitr:300&display=swap');
+      body {
+        font-family: 'Mitr', sans-serif;
+      }
+    </style>
+  </head>
+  <body onload="startTime()">
+    <nav class="navbar fixed-top  navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">
+        <!-- <img src="/docs/4.3/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt=""> -->
+        ระบบเช็คชื่อเข้าเรียนด้วยใบหน้า
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <!-- <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="/recognized">Recognized</a>
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">Pricing</a>
+          </li> -->
+          <!-- <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          </li> -->
+        </ul>
+      </div>
+      <!-- <a class="btn btn-outline-primary my-2 my-sm-0" href="/create_students">เพิ่มข้อมูลนักศึกษา</a> -->
+    </nav>
+
+    <br><br><br>
+    <div class="container">
+      <div class="row">
+        <!-- Left -->
+        <div class="col-sm-5">
+          <div class="card border-success">
+            <div class="card-body" style="height:400px">
+              <h5 class="card-title"><span style="color:#9933CC" id="current_date"></span> | <span class="text-primary" id="time"></span></h5>
+              <!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+              <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+              <!-- <img src="{{ url_for('static', filename='OpenCV_Logo.png') }}" style="width:100%; height:300px" alt=""> -->
+              <img src="{{ url_for('video_recognize') }}" style="width:100%; height:300px">
+            </div>
+          </div>
+        </div>
+
+        <!-- Right -->
+        <div class="col-sm-7">
+          <div class="card border-primary">
+            <div class="card-header" style="font-weight:bold;">
+              ตารางเช็คชื่อ วันที่ <span id="current_date_table"></span>
+            </div>
+            <!-- <div class="card-body"> -->
+            <!-- <iframe name="iframe1" frameborder='0' noresize='noresize' style='background: transparent; width: 100%;  height:350px;' src="http://localhost:0136/iframe_query" frameborder="0"></iframe> -->
+              <!-- <table class="table table-hover table-striped">
+                <thead class="">
+                  <tr>
+                    <th width="20px">#</th>
+                    <th width="210px">เวลาเข้าเรียน</th>
+                    <th scope="col">รหัสนักศึกษา</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="4" class="text-center">-- ไม่มีข้อมูล --</td>
+                  </tr>
+                  {% for row in datas %}
+                  <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ row.4 }}</td>
+                    <td>{{ row.2 }}</td>
+                    <td><a class="btn btn-outline-primary btn-sm" href="/create_students">แสดงรายละเอียด</a></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table> -->
+            <!-- </div> -->
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <br><br><br><br>
+    <nav class="navbar sticky-bottom navbar-light bg-light">
+      <span class="mx-auto" style="font-size:14px;">
+        ระบบเช็คชื่อเข้าเรียนด้วยใบหน้า | จัดทำโดย : <a href="https://off.dragonhispeed.net" target="_blank">นายณรงค์ศักดิ์ ชาวสวน</a>
+      </span>
+    </nav>
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript">
+      function startTime() {
+        var today = new Date();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('time').innerHTML =
+        h + ":" + m + ":" + s;
+        var t = setTimeout(startTime, 500);
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+        current_date = dd + '/' + mm + '/' + yyyy;
+        document.getElementById('current_date').innerHTML = current_date;
+        document.getElementById('current_date_table').innerHTML = current_date;
+      }
+      function checkTime(i) {
+        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+        return i;
+      }
+    </script>
+  </body>
+</html>

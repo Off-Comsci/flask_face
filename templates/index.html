@@ -1,0 +1,58 @@
+{% extends "snippets/main.html" %}
+{% block title %}หน้าหลัก{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-sm-5">
+    <div class="card border-success">
+      <div class="card-body" style="height:400px">
+        <h5 class="card-title"><span style="color:#9933CC" id="current_date"></span> | <span class="text-primary" id="time"></span></h5>
+        <img src="{{ url_for('video_feed') }}" style="width:100%; height:300px">
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-7">
+    <div class="card border-primary">
+      <div class="card-header" style="font-weight:bold;">
+        ตารางเช็คชื่อ วันที่ <span id="current_date_table"></span>
+        <span class="float-right"><a href="/detect_report" class="btn btn-sm btn-primary">รายละเอียดเพิ่มเติม</a></span>
+      </div>
+      <!-- <span id="trs"></span> -->
+      <iframe name="iframe1" frameborder='0' noresize='noresize' style='background: transparent; width: 100%;  height:350px;' src="http://localhost:0136/iframe_query" frameborder="0"></iframe>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    startTime();
+  });
+  function refresh()
+  {
+  document.all.iframe1.src = document.all.iframe1.src;
+  }
+  window.setInterval("refresh()",10000);
+
+  function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('time').innerHTML =
+    h + ":" + m + ":" + s;
+    var t = setTimeout(startTime, 500);
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+    current_date = dd + '/' + mm + '/' + yyyy;
+    document.getElementById('current_date').innerHTML = current_date;
+    document.getElementById('current_date_table').innerHTML = current_date;
+  }
+  function checkTime(i) {
+    if (i < 10) {i = "0" + i};
+    return i;
+  }
+</script>
+{% endblock %}

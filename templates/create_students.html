@@ -1,0 +1,96 @@
+{% extends "snippets/main.html" %}
+{% block title %}ข้อมูลนักศึกษา{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-header text-center">
+    <strong>เพิ่มข้อมูลนักศึกษา</strong>
+  </div>
+  <div class="card-body">
+    <form action="{{ url_for('insert_students') }}" method="post">
+      <div class="form-group">
+        <label >รหัสนักศึกษา</label>
+        <input required name="ids" type="number" maxlength="11" class="form-control" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="xxxxxxxxxxx" autocomplete="off">
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-2">
+          <label >คำนำหน้า</label>
+          <select name="pname" class="form-control">
+            <option value="นาย">นาย</option>
+            <option value="นางสาว">นางสาว</option>
+            <option value="นาง">นาง</option>
+          </select>
+        </div>
+        <div class="form-group col-md-5">
+          <label >ชื่อ</label>
+          <input required name="fname" type="text" maxlength="50" class="form-control" autocomplete="off">
+        </div>
+        <div class="form-group col-md-5">
+          <label >นามสกุล</label>
+          <input required name="lname" type="text" maxlength="50" class="form-control" autocomplete="off">
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col text-center">
+          <button type="reset" class="btn btn-danger">ยกเลิก</button>
+          <button type="submit" class="btn btn-primary">บันทึก</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<br>
+  <table class="table table-hover table-bordered">
+    <thead class="">
+      <tr class="table-primary">
+        <th >#</th>
+        <th scope="col">รหัสนักศึกษา</th>
+        <th scope="col">ชื่อ-สกุล</th>
+        <th width="140px"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in datas %}
+      <tr>
+        <th scope="col">{{ loop.index }}</th>
+        <td>{{ row.0 }}</td>
+        <td>{{ row.1 }}{{ row.2 }} {{ row.3 }}</td>
+        <td class="text-center">
+        <!-- <a href="#" class="btn btn-outline-success btn-xs" >ดูข้อมูลใบหน้า</a> -->
+        <a href="/delete/{{ row.0 }}" class="btn btn-outline-danger btn-xs" onclick="return confirm('คุณต้องการลบข้อมูลหรือไม่?')">ลบข้อมูล</a>
+      </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if session['stsuccess'] %}
+    <input type="hidden" id="stsuccess" value="{{ session['stsuccess'] }}">
+  {% endif %}
+  {% if session['stfail'] %}
+    <input type="hidden" id="stfail" value="{{ session['stfail'] }}">
+  {% endif %}
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    if($('#stsuccess').val()){
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: $('#stsuccess').val(),
+        showConfirmButton: false,
+        timer: 3000
+      })
+    }
+    if($('#stfail').val()){
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: $('#stfail').val(),
+        showConfirmButton: false,
+        timer: 3000
+      })
+    }
+  });
+</script>
+{% endblock %}

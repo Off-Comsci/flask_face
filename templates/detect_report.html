@@ -1,0 +1,52 @@
+{% extends "snippets/main.html" %}
+{% block title %}รายการเข้าเรียน{% endblock %}
+{% block content %}
+<div class="form-row" style="margin-bottom:5px">
+  <div class="col-10" style="margin-top:15px; font-size:18px">
+    รายการเข้าเรียน ประจำเดือน <strong class="text-primary">{{monthh}}</strong>
+  </div>
+  <div class="col-2">
+    <select class="form-control" style="cursor:pointer" id="searchMonth">
+      <option value="0">-- เลือกเดือน --</option>
+      {% for i in showmonths : %}
+      <option value="{{loop.index}}">{{i}}</option>
+      {% endfor %}
+    </select>
+  </div>
+</div>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr style="background-color:#6a1b9a; border-color:#6a1b9a; color:#ffbb33">
+      <th >#</th>
+      <th >วันที่เข้าเรียน</th>
+      <th >เวลาเข้าเรียน</th>
+      <th >รหัสนักศึกษา</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if datas : %}
+    {% for row in datas %}
+    <tr>
+      <th scope="row">{{ loop.index }}</th>
+      <td>{{ row.1 }}</td>
+      <td>{{ row.4 }} น.</td>
+      <td>{{ row.6 }}{{ row.7 }} {{ row.8 }}</td>
+    </tr>
+    {% endfor %}
+    {% else : %}
+    <tr>
+      <td colspan="4" class="text-center">--ไม่มีข้อมูล--</td>
+    </tr>
+    {% endif %}
+  </tbody>
+</table>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+  $('#searchMonth').on('change',function(){
+    var m = $(this).val();
+    if( m > 0 )
+      window.location.href='/detect_report?monthh='+m;
+  })
+</script>
+{% endblock %}
